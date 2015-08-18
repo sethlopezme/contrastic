@@ -1,0 +1,133 @@
+/* eslint strict: 0, no-var: 0, no-console: 0 */
+'use strict';
+
+var path = require('path');
+var gulp = require('gulp');
+var cache = require('gulp-cached');
+var autoprefixer = require('gulp-autoprefixer');
+var sass = require('gulp-sass');
+var eslint = require('gulp-eslint');
+var scsslint = require('gulp-scss-lint');
+var webpack = require('webpack');
+
+var config = {
+	html: {
+		input: ['./src/*.html'],
+		output: './build/',
+		// omit "./" to pick up future files
+		watch: ['src/*.html']
+	},
+	styles: {
+		input: ['./src/styles/*.scss'],
+		output: './build/styles/',
+		// omit "./" to pick up future files
+		watch: ['src/styles/**/*.scss'],
+		lint: ['./src/styles/**/*.scss']
+	},
+	scripts: {
+		input: ['./src/app/main.js'],
+		output: './build/app/',
+		// omit "./" to pick up future files; include html files for templates
+		watch: ['src/app/**/*.{js,html}']
+	},
+	plugins: {
+		sass: {
+			outputStyle: 'compressed'
+		}
+	}
+};
+
+var compiler = webpack({
+	target: 'atom',
+	entry: config.scripts.input,
+	output: {
+		path: path.resolve(__dirname, config.scripts.output),
+		publicPath: '/app/',
+		filename: 'main.js'
+	},
+	module: {
+		loaders: [
+			{
+				test: /\.jsx?$/,
+				exclude: /(node_modules|bower_components)/,
+				loader: 'babel?optional[]=runtime'
+			},
+			{
+				test: /\.html$/,
+				loader: 'html'
+			}
+		]
+	},
+	resolve: {
+		modulesDirectories: ['node_modules', 'lib', 'app']
+	}
+});
+
+/**
+ * Default task. Takes the guess-work out of running default tasks by telling
+ * you to run the specific task that you want to perform.
+ */
+gulp.task('default', function defaultTask() {
+	console.error('ERROR: You must run a specific task. List all tasks with "gulp --tasks".');
+	process.exit(9);
+});
+
+/**
+ * Handles copying of HTML files from the input directory to the output
+ * directory.
+ */
+gulp.task('html', function html() {
+	return gulp.src(config.html.input)
+		.pipe(cache('html'))
+		.pipe(gulp.dest(config.html.output));
+});
+
+/**
+ * Handles linting JavaScript files with ESLint.
+ */
+gulp.task('lint-scripts', function lintScripts() {
+	return gulp.src(config.scripts.lint)
+		.pipe(cache('eslint'))
+		.pipe(eslint())
+		.pipe(eslint.format('stylish'))
+		.pipe(eslint.failAfterError());
+});
+
+/**
+ * Handles transpilation and packing of JavaScript.
+ */
+gulp.task('scripts', ['lint-scripts'], function scripts(cb) {
+	compiler.run(function compilerHandler(error, stats) {
+		console.log(error || stats.toString({
+			colors: true,
+			chunks: false,
+			cached: true
+		}));
+		cb();
+	});
+});
+
+/**
+ * Handles compilation of Sass files.
+ */
+gulp.task('styles', function styles() {
+	return gulp.src(config.styles.input)
+		.pipe(sass(config.plugins.sass).on('error', sass.logError))
+		.pipe(autoprefixer())
+		.pipe(gulp.dest(config.styles.output));
+});
+
+/**
+ * Handles a basic build of the entire project.
+ */
+gulp.task('build', ['html', 'scripts', 'styles']);
+
+/**
+ * Handles building project, serving the project locally, and watching the
+ * project files for changes.
+ */
+gulp.task('dev', ['html', 'scripts', 'styles'], function serve() {
+	gulp.watch(config.html.watch, ['html']);
+	gulp.watch(config.scripts.watch, ['scripts']);
+	gulp.watch(config.styles.watch, ['styles']);
+});
