@@ -1,0 +1,52 @@
+$_tab-bar--active-bg:          darken($color-green, 5%);
+$_tab-bar--active-border:      $color-green;
+$_tab-bar--active-icon-fill:   #ffffff;
+$_tab-bar--inactive-bg:        $color-green;
+$_tab-bar--inactive-border:    $color-green;
+$_tab-bar--inactive-icon-fill: darken($color-green, 15%);
+
+.tab-bar {
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	margin: 0;
+}
+
+.tab-bar__tab {
+	background: $_tab-bar--inactive-bg;
+	flex-grow: 1;
+	position: relative;
+	transition: background $timing-medium $easing-fade;
+
+	.icon-holder {
+		height: 1.125em;
+		width: 1.125em;
+	}
+
+	.icon {
+		fill: $_tab-bar--inactive-icon-fill;
+	}
+
+	&[current-view] {
+		background: $_tab-bar--active-bg;
+
+		.icon {
+			fill: $_tab-bar--active-icon-fill;
+		}
+	}
+}
+
+.tab-bar__btn {
+	display: flex;
+	justify-content: center;
+	padding: 10px 10px;
+	outline: none;
+	width: 100%;
+
+	&:hover,
+	&:focus {
+		.icon {
+			fill: $_tab-bar--active-icon-fill;
+		}
+	}
+}

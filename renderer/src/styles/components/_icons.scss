@@ -1,0 +1,12 @@
+.icon-holder {
+  display: block;
+  height: 16px;
+  width: 16px;
+}
+
+.icon {
+  fill: #000;
+  height: 100%;
+  transition: fill $timing-fast $easing-fade;
+  width: 100%;
+}

@@ -1,0 +1,108 @@
+$_window-bg:                 #ffffff;
+$_window-border-radius:      3px;
+$_window-shadow-color:       rgba(0, 0, 0, .3);
+$_window-shadow-blur:        15px;
+
+$_window__pointer-bg:        #f6f6f6;
+
+$_window__titlebar-color:    $color-shuttle;
+$_window__titlebar-gradient: linear-gradient(
+	to bottom,
+	$_window__pointer-bg,
+	#d7d7d7
+);
+
+.window {
+  align-items: center;
+  background: $_window-bg;
+  border-radius: $_window-border-radius;
+  box-shadow: 0 3px $_window-shadow-blur $_window-shadow-color;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  max-height: 500px;
+  position: relative;
+
+	&::before {
+    border: 5px solid transparent;
+    border-right-color: $_window__pointer-bg;
+    border-top-color: $_window__pointer-bg;
+    border-top-right-radius: $_window-border-radius;
+		box-shadow: -3px 3px $_window-shadow-blur $_window-shadow-color;
+		content: '';
+		display: block;
+		height: 10px;
+    left: calc(50% - 5px);
+		position: absolute;
+		top: -5px;
+		transform: rotate(-45deg);
+		width: 10px;
+	}
+}
+
+.window__titlebar,
+.window__view {
+  width: 100%;
+}
+
+.window__titlebar {
+	align-items: center;
+	background: $_window__titlebar-gradient;
+  border-top-left-radius: $_window-border-radius;
+  border-top-right-radius: $_window-border-radius;
+  color: $_window__titlebar-color;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	position: relative;
+	user-select: none;
+	width: 100%;
+  z-index: 10;
+}
+
+.window__titlebar__section {
+	line-height: 0;
+	padding: 10px;
+	text-align: center;
+	width: 33.333%;
+
+	&:first-child {
+		padding-left: 15px;
+		text-align: left;
+	}
+
+	&:last-child {
+		padding-right: 15px;
+		text-align: right;
+	}
+}
+
+.window__view {
+	border-bottom-left-radius: $_window-border-radius;
+	border-bottom-right-radius: $_window-border-radius;
+	display: flex;
+	flex: 1 0 0;
+	flex-direction: column;
+  overflow: hidden;
+	position: relative;
+}
+
+.window__btn {
+	.icon {
+		fill: $color-shuttle;
+	}
+
+	& + & {
+		margin-left: 25px;
+	}
+}
+
+.window__btn--quit {
+	&:hover,
+	&:focus {
+		.icon {
+			fill: #ee0000;
+		}
+	}
+}

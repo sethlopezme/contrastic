@@ -1,0 +1,44 @@
+.preview {
+	display: flex;
+	flex: 1 0 0;
+	padding-top: 65px;
+	position: relative;
+
+	*::selection {
+		background: rgba(0, 0, 0, .5);
+		color: #ffffff;
+	}
+}
+
+.preview__content {
+	padding: 0 15px;
+}
+
+.preview__level,
+.preview__ratio {
+	font-weight: 700;
+}
+
+.preview__level {
+	font-size: 48px;
+	line-height: 1;
+	margin: 15px 0 10px;
+}
+
+.preview__ratio,
+.preview__explanation {
+	margin: 10px 0;
+}
+
+.preview__ratio {
+	font-size: 24px;
+}
+
+.is-dark {
+	.preview {
+		*::selection {
+			background: rgba(255, 255, 255, .5);
+			color: #000000;
+		}
+	}
+}

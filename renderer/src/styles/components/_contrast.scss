@@ -1,0 +1,100 @@
+.contrast-view {
+	display: flex;
+	flex: 1 0 0;
+	flex-direction: column;
+}
+
+.contrast__controls,
+.contrast__utility {
+	color: #ffffff;
+}
+
+.contrast__controls {
+	align-items: center;
+	background: rgba(0, 0, 0, .5);
+	display: flex;
+	justify-content: space-between;
+	left: 0;
+	position: absolute;
+	top: 0;
+	user-select: none;
+	width: 100%;
+	z-index: 1;
+}
+
+.contrast__control {
+	flex: 1 0 0;
+	padding: 15px 5px 10px;
+
+	label,
+	input {
+		display: block;
+	}
+
+	label {
+		font-size: 11px;
+		font-weight: $weight-bold;
+		letter-spacing: 1px;
+		text-transform: uppercase;
+	}
+
+	input {
+		background: transparent;
+		border: none;
+		border-bottom: 1px solid transparent;
+		font-size: 14px;
+		font-family: $font-stack-code;
+		outline: none;
+		padding: 5px 0;
+		transition: border-color $timing-medium $easing-fade;
+		width: 100%;
+
+		&:hover,
+		&:focus {
+			border-bottom-color: inherit;
+		}
+	}
+
+	&:first-child {
+		padding-left: 15px;
+	}
+
+	&:last-child {
+		padding-right: 15px;
+	}
+}
+
+.contrast__utility {
+	background: rgba(0, 0, 0, .5);
+	border-radius: 19px;
+	line-height: 0;
+	padding: 5px 10px;
+	position: absolute;
+	right: 15px;
+	top: 80px;
+	z-index: 1;
+}
+
+.contrast__btn {
+	opacity: .5;
+	outline: none;
+	transition: opacity $timing-fast $easing-fade;
+
+	.icon-holder {
+		height: 14px;
+		width: 14px;
+	}
+
+	.icon {
+		fill: currentColor;
+	}
+
+	&:hover,
+	&:focus {
+		opacity: 1;
+	}
+
+	& + & {
+		margin-left: 5px;
+	}
+}

@@ -1,0 +1,43 @@
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
+}
+
+html,
+body {
+	border-radius: 0;
+	height: 100vh;
+	overflow: hidden;
+	width: 100%;
+}
+
+html {
+	box-sizing: border-box;
+	-webkit-font-smoothing: antialiased;
+}
+
+body {
+	font: 1em / 1.2 $font-stack-sans;
+	padding: 12px 10px 15px;
+}
+
+ul,
+ol {
+	list-style: none;
+	padding: 0;
+}
+
+button,
+input,
+select,
+textarea {
+	color: inherit;
+	font: inherit;
+}
+
+button {
+	color: inherit;
+	cursor: pointer;
+	font: inherit;
+}

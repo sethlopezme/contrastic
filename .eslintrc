@@ -70,7 +70,7 @@
      */
     "accessor-pairs": 2,                            // http://eslint.org/docs/rules/accessor-pairs
     "block-scoped-var": 0,                          // http://eslint.org/docs/rules/block-scoped-var
-    "complexity": [1, 2],                           // http://eslint.org/docs/rules/complexity
+    "complexity": 0,                                // http://eslint.org/docs/rules/complexity
     "consistent-return": 1,                         // http://eslint.org/docs/rules/consistent-return
     "curly": 2,                                     // http://eslint.org/docs/rules/curly
     "default-case": 2,                              // http://eslint.org/docs/rules/default-case

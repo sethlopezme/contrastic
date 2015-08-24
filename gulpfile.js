@@ -4,33 +4,51 @@
 var path = require('path');
 var gulp = require('gulp');
 var cache = require('gulp-cached');
+var imagemin = require('gulp-imagemin');
 var autoprefixer = require('gulp-autoprefixer');
 var sass = require('gulp-sass');
 var eslint = require('gulp-eslint');
-var scsslint = require('gulp-scss-lint');
 var webpack = require('webpack');
 
 var config = {
 	html: {
-		input: ['./src/*.html'],
-		output: './build/',
+		input: ['./renderer/src/*.html'],
+		output: './renderer/build/',
 		// omit "./" to pick up future files
-		watch: ['src/*.html']
+		watch: ['renderer/src/*.html']
+	},
+	images: {
+		input: ['./renderer/src/images/**/*.{jpg,gif,png,svg}'],
+		output: './renderer/build/images/',
+		// omit "./" to pick up future files
+		watch: ['renderer/src/images/**/*.{jpg,gif,png,svg}']
 	},
 	styles: {
-		input: ['./src/styles/*.scss'],
-		output: './build/styles/',
+		input: ['./renderer/src/styles/*.scss'],
+		output: './renderer/build/styles/',
 		// omit "./" to pick up future files
-		watch: ['src/styles/**/*.scss'],
-		lint: ['./src/styles/**/*.scss']
+		watch: ['renderer/src/styles/**/*.scss']
 	},
 	scripts: {
-		input: ['./src/app/main.js'],
-		output: './build/app/',
+		input: ['./renderer/src/scripts/app.js'],
+		output: './renderer/build/scripts/',
 		// omit "./" to pick up future files; include html files for templates
-		watch: ['src/app/**/*.{js,html}']
+		watch: ['renderer/src/scripts/**/*.{js,html}'],
+		lint: ['./renderer/src/scripts/**/*.js']
 	},
 	plugins: {
+		autoprefixer: {
+			browsers: ['chrome 43']
+		},
+		imagemin: {
+			svgoPlugins: [
+				{ cleanupIDs: false },
+				{ convertPathData: false },
+				{ convertShapeToPath: false },
+				{ mergePaths: false },
+				{ removeUselessDefs: false }
+			]
+		},
 		sass: {
 			outputStyle: 'compressed'
 		}
@@ -43,7 +61,7 @@ var compiler = webpack({
 	output: {
 		path: path.resolve(__dirname, config.scripts.output),
 		publicPath: '/app/',
-		filename: 'main.js'
+		filename: 'app.js'
 	},
 	module: {
 		loaders: [
@@ -53,13 +71,17 @@ var compiler = webpack({
 				loader: 'babel?optional[]=runtime'
 			},
 			{
+				test: /\.json$/,
+				loader: 'json'
+			},
+			{
 				test: /\.html$/,
 				loader: 'html'
 			}
 		]
 	},
 	resolve: {
-		modulesDirectories: ['node_modules', 'lib', 'app']
+		modulesDirectories: ['node_modules', 'lib', 'scripts']
 	}
 });
 
@@ -80,6 +102,16 @@ gulp.task('html', function html() {
 	return gulp.src(config.html.input)
 		.pipe(cache('html'))
 		.pipe(gulp.dest(config.html.output));
+});
+
+/**
+ * Handles copying and optimizing images.
+ */
+gulp.task('images', function images() {
+	return gulp.src(config.images.input)
+		.pipe(cache('images'))
+		.pipe(imagemin(config.plugins.imagemin))
+		.pipe(gulp.dest(config.images.output));
 });
 
 /**
@@ -113,21 +145,22 @@ gulp.task('scripts', ['lint-scripts'], function scripts(cb) {
 gulp.task('styles', function styles() {
 	return gulp.src(config.styles.input)
 		.pipe(sass(config.plugins.sass).on('error', sass.logError))
-		.pipe(autoprefixer())
+		.pipe(autoprefixer(config.plugins.autoprefixer))
 		.pipe(gulp.dest(config.styles.output));
 });
 
 /**
  * Handles a basic build of the entire project.
  */
-gulp.task('build', ['html', 'scripts', 'styles']);
+gulp.task('build', ['html', 'images', 'scripts', 'styles']);
 
 /**
  * Handles building project, serving the project locally, and watching the
  * project files for changes.
  */
-gulp.task('dev', ['html', 'scripts', 'styles'], function serve() {
+gulp.task('dev', ['html', 'images', 'scripts', 'styles'], function serve() {
 	gulp.watch(config.html.watch, ['html']);
+	gulp.watch(config.images.watch, ['images']);
 	gulp.watch(config.scripts.watch, ['scripts']);
 	gulp.watch(config.styles.watch, ['styles']);
 });
