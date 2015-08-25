@@ -90,7 +90,8 @@
 	}
 
 	&:hover,
-	&:focus {
+	&:focus,
+	&.is-active {
 		opacity: 1;
 	}
 
