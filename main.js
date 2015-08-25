@@ -1,14 +1,15 @@
 /* eslint no-console: 0 */
 import path from 'path';
 import crashReporter from 'crash-reporter';
-import electronDebug from 'electron-debug';
+// import electronDebug from 'electron-debug';
 import app from 'app';
 import ipc from 'ipc';
+import Menu from 'menu';
 import Tray from 'tray';
 import BrowserWindow from 'browser-window';
 
 crashReporter.start();
-electronDebug();
+// electronDebug();
 
 const entry = path.join('file://', __dirname, 'renderer', 'build', 'index.html');
 const trayIcon = path.join(__dirname, 'tray-icon.png');
@@ -23,6 +24,25 @@ const winConfig = {
 };
 let win = null;
 let tray = null;
+const appMenu = [
+	{ label: app.getName(), submenu: [
+		{ label: `About ${app.getName()}`, selector: 'orderFrontStandardAboutPanel:' },
+		{ label: 'Quit', accelerator: 'Cmd+Q', selector: 'terminate:' }
+	]},
+	{ label: 'Edit', submenu: [
+		{ label: 'Undo', accelerator: 'Cmd+Z', selector: 'undo:' },
+		{ label: 'Redo', accelerator: 'Cmd+Shift+Z', selector: 'redo:' },
+		{ type: 'separator' },
+		{ label: 'Cut', accelerator: 'Cmd+X', selector: 'cut:' },
+		{ label: 'Copy', accelerator: 'Cmd+C', selector: 'copy:' },
+		{ label: 'Paste', accelerator: 'Cmd+V', selector: 'paste:' },
+		{ label: 'Select All', accelerator: 'Cmd+A', selector: 'selectAll:' }
+	]},
+	{ label: 'Developer', submenu: [
+		{ label: 'Reload', accelerator: 'Cmd+R', click: () => {win.reload(); } },
+		{ label: 'Toggle DevTools', accelerator: 'Cmd+Alt+I', click: () => { win.toggleDevTools(); } }
+	]}
+];
 
 function onWinBlur() {
 	if (win.isVisible()) {
@@ -45,8 +65,8 @@ function onTrayClicked(event, bounds) {
 }
 
 app.dock.hide();
-
 app.on('ready', () => {
+	Menu.setApplicationMenu(Menu.buildFromTemplate(appMenu));
 	win = new BrowserWindow(winConfig);
 	tray = new Tray(trayIcon);
 
