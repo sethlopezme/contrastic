@@ -1,3 +1,5 @@
+$_contrast__control-bg:    rgba(0, 0, 0, .42);
+
 .contrast-view {
 	display: flex;
 	flex: 1 0 0;
@@ -11,7 +13,7 @@
 
 .contrast__controls {
 	align-items: center;
-	background: rgba(0, 0, 0, .5);
+	background: $_contrast__control-bg;
 	display: flex;
 	justify-content: space-between;
 	left: 0;
@@ -33,25 +35,25 @@
 
 	label {
 		font-size: 11px;
-		font-weight: $weight-bold;
+		font-weight: $weight-semibold;
 		letter-spacing: 1px;
+		line-height: 1;
 		text-transform: uppercase;
 	}
 
 	input {
 		background: transparent;
 		border: none;
-		border-bottom: 1px solid transparent;
+		border-bottom: 2px solid transparent;
 		font-size: 14px;
-		font-family: $font-stack-code;
 		outline: none;
-		padding: 5px 0;
+		padding: 6px 0;
 		transition: border-color $timing-medium $easing-fade;
 		width: 100%;
 
 		&:hover,
 		&:focus {
-			border-bottom-color: inherit;
+			border-bottom-color: currentColor;
 		}
 	}
 
@@ -65,34 +67,22 @@
 }
 
 .contrast__utility {
-	background: rgba(0, 0, 0, .5);
-	border-radius: 19px;
 	line-height: 0;
-	padding: 5px 10px;
 	position: absolute;
 	right: 15px;
-	top: 80px;
+	top: 85px;
 	z-index: 1;
 }
 
 .contrast__btn {
-	opacity: .5;
+	background: $_contrast__control-bg;
+	border-radius: 50%;
+	padding: 7px;
 	outline: none;
-	transition: opacity $timing-fast $easing-fade;
-
-	.icon-holder {
-		height: 14px;
-		width: 14px;
-	}
 
 	.icon {
 		fill: currentColor;
-	}
-
-	&:hover,
-	&:focus,
-	&.is-active {
-		opacity: 1;
+		transition: opacity $timing-fast $easing-fade;
 	}
 
 	& + & {

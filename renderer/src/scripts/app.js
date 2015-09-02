@@ -3,61 +3,48 @@ import Color from 'color';
 import Vue from 'vue';
 
 import ContrastView from 'views/contrast';
-import HistoryView from 'views/history';
+import SavedColorsView from 'views/saved-colors';
 import SettingsView from 'views/settings';
 
-let settings = localStorage.getItem('settings');
-let history = localStorage.getItem('history');
+const settingsDefaults = {
+	language: 'en',
+	launchAtStartup: false
+};
+const savedColorsMax = 100;
+let settings = localStorage.getItem('tinge:settings');
+let savedColors = localStorage.getItem('tinge:saved-colors');
 
 Vue.config.debug = true;
 
 // check for the existence of the settings object
 if (settings !== null) {
-	settings = JSON.parse(settings);
+	settings = Object.assign(settingsDefaults, JSON.parse(settings));
 } else {
-	settings = {
-		launchAtStartup: false
-	};
-
-	// localStorage.setItem('settings', JSON.stringify(settings));
+	settings = settingsDefaults;
 }
+
+localStorage.setItem('tinge:settings', JSON.stringify(settings));
 
 // check for the existence of the history array
-if (history !== null) {
-	history = JSON.parse(history);
+if (savedColors !== null) {
+	savedColors = JSON.parse(savedColors);
 } else {
-	history = [];
-	localStorage.setItem('history', JSON.stringify(history));
+	savedColors = [];
 }
+
+localStorage.setItem('tinge:saved-colors', JSON.stringify(savedColors));
 
 const tinge = new Vue({
 	el: 'html',
 	components: {
 		contrast: ContrastView,
-		history: HistoryView,
+		savedColors: SavedColorsView,
 		settings: SettingsView
 	},
 	data: {
-		view: 'main',
-		tabs: [
-			{
-				name: 'History',
-				view: 'history',
-				icon: 'clock'
-			},
-			{
-				name: 'Home',
-				view: 'main',
-				icon: 'droplet'
-			},
-			{
-				name: 'Settings',
-				view: 'settings',
-				icon: 'cog'
-			}
-		],
-		history,
-		settings
+		savedColors,
+		settings,
+		view: 'contrast'
 	},
 	computed: {
 		last: {
@@ -66,28 +53,28 @@ const tinge = new Vue({
 				const foreground = '#ffffff';
 				const ratio = (new Color(background)).contrast(new Color(foreground)).toFixed(2);
 
-				return this.history[0] || {
+				return this.savedColors[0] || {
 					background,
 					foreground,
 					ratio
 				};
 			},
 			set: function setLast(snapshot) {
-				if (this.history.length === this.settings.historyCount) {
-					this.history.pop();
+				if (this.savedColors.length === savedColorsMax) {
+					this.savedColors.pop();
 				}
 
-				this.history.unshift(snapshot);
-				localStorage.setItem('history', JSON.stringify(this.history));
+				this.savedColors.unshift(snapshot);
+				localStorage.setItem('tinge:saved-colors', JSON.stringify(this.savedColors));
 			}
 		}
 	},
 	methods: {
-		onRoute(view) {
-			this.view = view;
-		},
 		onQuit() {
 			ipc.send('quit');
+		},
+		route(view) {
+			this.view = view;
 		}
 	}
 });

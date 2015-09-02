@@ -25,14 +25,14 @@ export default {
 		},
 		explanation() {
 			if (this.colors.ratio >= 7) {
-				return 'This combination meets the WCAG 2.0 AAA success criteria for enhanced contrast. It also meets the AA success criteria for minimum contrast.';
+				return 'Meets the WCAG 2.0 AAA enhanced contrast criteria and the AA minimum contrast criteria.';
 			} else if (this.colors.ratio >= 4.5 && this.colors.ratio < 7) {
-				return 'This combination meets the WCAG 2.0 AA success criteria for minimum contrast. It does not meet the AAA success criteria for enhanced contrast.';
+				return 'Meets the WCAG 2.0 AA minimum contrast criteria. Does not meet the AAA enhanced contrast criteria.';
 			} else if (this.colors.ratio >= 3 && this.colors.ratio < 4.5) {
-				return 'This combination meets the WCAG 2.0 AA success criteria for minimum contrast when foreground text is at least 18pt (~24px), or 14pt (~19px) and bold. It does not meet the AAA success criteria for enhanced contrast.';
+				return 'Meets the WCAG 2.0 AA minimum contrast criteria for text that is at least 18pt/24px, or 14pt/19px and bold. Does not meet the AAA enhanced contrast criteria.';
 			}
 
-			return 'This combination does not meet the WCAG 2.0 AA success criteria for minimum contrast, nor the AAA success criteria for enhanced contrast.';
+			return 'Does not meet the WCAG 2.0 AA or AAA contrast criteria.';
 		},
 		accessibleExplanation() {
 			return `The ratio between ${this.colors.background} and ${this.colors.foreground} is ${this.colors.ratio}. ${this.explanation}`;

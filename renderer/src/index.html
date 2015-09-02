@@ -12,22 +12,23 @@
 	<body v-el="body">
 		<div class="window">
 			<div class="window__titlebar titlebar">
-				<div class="window__titlebar__section">
-					<button class="btn btn--icon window__btn window__btn--bookmarks" title="Bookmarks" aria-label="View bookmarks">
+				<div class="window__titlebar-section">
+					<button class="btn btn--icon window__btn window__btn--saved-colors" title="Saved Colors" aria-label="View saved colors" v-on="click: view === 'saved-colors' ? route('contrast') : route('saved-colors')" v-class="is-active: view === 'saved-colors'">
 						<svg viewBox="0 0 8 8" class="icon-holder">
 							<use xlink:href="images/icons.svg#star" class="icon"></use>
 						</svg>
 					</button>
 				</div>
-				<div class="window_titlebar__section">
+				<div class="window_titlebar-section">
 					<span class="logo">Tinge</span>
 				</div>
-				<div class="window__titlebar__section">
-					<button class="btn btn--icon window__btn window__btn--settings" title="Settings" aria-label="View settings" v-class="is-open: ">
+				<div class="window__titlebar-section">
+					<button class="btn btn--icon window__btn window__btn--settings" title="Settings" aria-label="View settings" v-on="click: view === 'settings' ? route('contrast') : route('settings')" v-class="is-active: view === 'settings'">
 						<svg viewBox="0 0 8 8" class="icon-holder">
 							<use xlink:href="images/icons.svg#cog" class="icon"></use>
 						</svg>
 					</button>
+					<span class="window__titlebar-separator"></span>
 					<button class="btn btn--icon window__btn window__btn--quit" title="Quit" aria-label="Quit Tinge" v-on="click: onQuit">
 						<svg viewBox="0 0 8 8" class="icon-holder">
 							<use xlink:href="images/icons.svg#power-standby" class="icon"></use>
@@ -36,7 +37,7 @@
 				</div>
 			</div>
 			<main class="window__view">
-				<contrast v-ref="contrast" last="{{* last }}"></contrast>
+				<component is="{{ view }}" v-transition="view-fade"></component>
 			</main>
 		</div>
 

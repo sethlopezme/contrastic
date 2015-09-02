@@ -1,22 +1,18 @@
-$_window-bg:                 #ffffff;
-$_window-border-radius:      3px;
-$_window-shadow-color:       rgba(0, 0, 0, .3);
-$_window-shadow-blur:        15px;
+$_window-bg:                     #ffffff;
+$_window-border-radius:          3px;
+$_window-shadow-blur:            20px;
+$_window-shadow-color:           rgba(0, 0, 0, .35);
+$_window-shadow-vshift:          3px;
 
-$_window__pointer-bg:        #f6f6f6;
-
-$_window__titlebar-color:    $color-shuttle;
-$_window__titlebar-gradient: linear-gradient(
-	to bottom,
-	$_window__pointer-bg,
-	#d7d7d7
-);
+$_window__titlebar-bg:           #edf0f1;
+$_window__titlebar-color:        $color-shuttle;
+$_window__titlebar-separator-bg: #c5cbce;
 
 .window {
   align-items: center;
   background: $_window-bg;
   border-radius: $_window-border-radius;
-  box-shadow: 0 3px $_window-shadow-blur $_window-shadow-color;
+  box-shadow: 0 $_window-shadow-vshift $_window-shadow-blur $_window-shadow-color;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -26,10 +22,10 @@ $_window__titlebar-gradient: linear-gradient(
 
 	&::before {
     border: 5px solid transparent;
-    border-right-color: $_window__pointer-bg;
-    border-top-color: $_window__pointer-bg;
+    border-right-color: $_window__titlebar-bg;
+    border-top-color: $_window__titlebar-bg;
     border-top-right-radius: $_window-border-radius;
-		box-shadow: -3px 3px $_window-shadow-blur $_window-shadow-color;
+		box-shadow: -$_window-shadow-vshift $_window-shadow-vshift $_window-shadow-blur $_window-shadow-color;
 		content: '';
 		display: block;
 		height: 10px;
@@ -48,7 +44,7 @@ $_window__titlebar-gradient: linear-gradient(
 
 .window__titlebar {
 	align-items: center;
-	background: $_window__titlebar-gradient;
+	background: $_window__titlebar-bg;
   border-top-left-radius: $_window-border-radius;
   border-top-right-radius: $_window-border-radius;
   color: $_window__titlebar-color;
@@ -61,7 +57,7 @@ $_window__titlebar-gradient: linear-gradient(
   z-index: 10;
 }
 
-.window__titlebar__section {
+.window__titlebar-section {
 	line-height: 0;
 	padding: 10px;
 	text-align: center;
@@ -78,6 +74,15 @@ $_window__titlebar-gradient: linear-gradient(
 	}
 }
 
+.window__titlebar-separator {
+	background: $_window__titlebar-separator-bg;
+	display: inline-block;
+	height: 16px;
+	margin-left: 7px;
+	margin-right: 9px;
+	width: 1px;
+}
+
 .window__view {
 	border-bottom-left-radius: $_window-border-radius;
 	border-bottom-right-radius: $_window-border-radius;
@@ -89,13 +94,21 @@ $_window__titlebar-gradient: linear-gradient(
 }
 
 .window__btn {
+	position: relative;
+
 	.icon {
 		fill: $color-shuttle;
 	}
+}
 
-	& + & {
-		margin-left: 25px;
-	}
+.window__btn--saved-colors {
+  &:hover,
+  &:focus,
+  &.is-active {
+    .icon {
+      fill: #4abaf4;
+    }
+  }
 }
 
 .window__btn--quit {

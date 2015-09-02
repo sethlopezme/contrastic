@@ -24,11 +24,7 @@ let previewModesContextMenu;
 export default {
 	name: 'ContrastView',
 	template: require('./template.html'),
-	props: {
-		last: {
-			type: Object
-		}
-	},
+	inherit: true,
 	data() {
 		const data = {
 			debounce: 150,

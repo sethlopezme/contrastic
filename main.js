@@ -15,12 +15,12 @@ const entry = path.join('file://', __dirname, 'renderer', 'build', 'index.html')
 const trayIcon = path.join(__dirname, 'tray-icon.png');
 const winConfig = {
 	frame: false,
-	height: 305,
+	height: 300,
 	resizable: false,
 	show: false,
 	title: app.getName(),
 	transparent: true,
-	width: 450
+	width: 430
 };
 let win = null;
 let tray = null;
@@ -71,7 +71,7 @@ app.on('ready', () => {
 	tray = new Tray(trayIcon);
 
 	win.loadUrl(entry);
-	win.on('blur', onWinBlur);
+	// win.on('blur', onWinBlur);
 
 	tray.setToolTip(`${app.getName()} ${app.getVersion()}`);
 	tray.on('clicked', onTrayClicked);

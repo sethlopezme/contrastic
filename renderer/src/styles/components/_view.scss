@@ -1,0 +1,14 @@
+.view {
+	height: 100%;
+	left: 0;
+	position: absolute;
+	top: 0;
+	transition: opacity $timing-fast $easing-fade;
+	width: 100%;
+	z-index: 0;
+}
+
+.view-fade-enter,
+.view-fade-leave {
+	opacity: 0;
+}
