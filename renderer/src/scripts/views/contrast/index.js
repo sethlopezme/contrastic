@@ -29,14 +29,11 @@ export default {
 		const data = {
 			debounce: 150,
 			previewMode: previewModes[0].key,
-			model: {
-				background: this.last.background,
-				foreground: this.last.foreground
-			}
+			model: Object.assign({}, this.latest)
 		};
 
 		for (let i = 0, mode; (mode = previewModes[i++]);) {
-			data[mode.key] = mode.key === 'normal' ? this.last : {};
+			data[mode.key] = {};
 		}
 
 		return data;
@@ -54,6 +51,7 @@ export default {
 				foreground = malformedHexSyntax.test(foreground) ? `#${foreground}` : foreground;
 
 				this.updatePreviewModes(background, foreground);
+				this.updateLatest({ background, foreground });
 			}
 		},
 		onPreviewModeButtonClick() {
@@ -111,6 +109,19 @@ export default {
 					};
 				}
 			}
+		},
+		updateLatest(colors) {
+			this.latest = colors;
+			this.commitLatest();
+		},
+		saveCurrentContrast() {
+			this.savedContrasts.unshift(Object.assign({}, this.normal));
+
+			if (this.savedContrasts.length > this.settings.savedMax) {
+				this.savedContrasts = this.savedContrasts.slice(0, this.settings.savedMax);
+			}
+
+			this.commitSavedContrasts();
 		}
 	},
 	ready() {

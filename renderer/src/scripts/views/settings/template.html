@@ -1,2 +1,18 @@
-<p>Settings</p>
-<pre>{{ settings | json }}</pre>
+<div class="modal saved-colors">
+	<div class="modal__toolbar">
+		<div class="modal__toolbar-section">
+			<button class="btn btn--text modal__btn modal__btn--back" title="Back" aria-label="Back" v-on="click: toggleModal('settings')">
+				<svg viewBox="0 0 8 8" class="icon-holder">
+					<use xlink:href="images/icons.svg#chevron-left" class="icon"></use>
+				</svg>Back
+			</button>
+		</div>
+		<div class="modal__toolbar-section">
+			<button class="btn btn--text">Feedback?</button>
+		</div>
+	</div>
+	<div class="modal__content">
+		<p>Settings</p>
+		<pre>{{ settings | json }}</pre>
+	</div>
+</div>

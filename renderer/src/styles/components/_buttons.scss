@@ -2,10 +2,30 @@
   background: none;
   border: 0;
   display: inline-block;
+  outline: 0;
   padding: 0;
 }
 
+.btn--text {
+  line-height: 1;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+
+  .icon-holder {
+    display: inline-block;
+    margin-right: 5px;
+    position: relative;
+    top: -1px;
+    vertical-align: middle;
+  }
+}
+
 .btn--icon {
+  line-height: inherit;
+
   svg {
     display: block;
   }

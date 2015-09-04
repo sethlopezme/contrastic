@@ -1,4 +1,4 @@
-<div class="view contrast-view" v-class="is-dark: $data[previewMode].dark">
+<div class="contrast-view" v-class="is-dark: $data[previewMode].dark">
 	<div class="contrast__controls">
 		<div class="contrast__control">
 			<label for="background">Background</label>
@@ -10,7 +10,7 @@
 		</div>
 	</div>
 	<div class="contrast__utility">
-		<button class="btn btn--icon contrast__btn contrast__btn--bookmark" title="Save Current Colors" aria-label="Save the current colors" v-class="is-active: bookmarked">
+		<button class="btn btn--icon contrast__btn contrast__btn--save" title="Save Current Color Contrast" aria-label="Save the current color contrast" v-class="is-active: saved" v-on="click: saveCurrentContrast">
 			<svg viewBox="0 0 8 8" class="icon-holder">
 				<use xlink:href="images/icons.svg#star" class="icon"></use>
 			</svg>

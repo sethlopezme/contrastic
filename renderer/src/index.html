@@ -11,24 +11,24 @@
 	</head>
 	<body v-el="body">
 		<div class="window">
-			<div class="window__titlebar titlebar">
+			<div class="window__titlebar">
 				<div class="window__titlebar-section">
-					<button class="btn btn--icon window__btn window__btn--saved-colors" title="Saved Colors" aria-label="View saved colors" v-on="click: view === 'saved-colors' ? route('contrast') : route('saved-colors')" v-class="is-active: view === 'saved-colors'">
+					<button class="btn btn--icon window__btn window__btn--saved-contrasts" title="Saved Contrasts" aria-label="View saved contrasts" v-on="click: toggleModal('saved-contrasts')" v-class="is-active: modal === 'saved-contrasts'">
 						<svg viewBox="0 0 8 8" class="icon-holder">
 							<use xlink:href="images/icons.svg#star" class="icon"></use>
 						</svg>
 					</button>
-				</div>
-				<div class="window_titlebar-section">
-					<span class="logo">Tinge</span>
-				</div>
-				<div class="window__titlebar-section">
-					<button class="btn btn--icon window__btn window__btn--settings" title="Settings" aria-label="View settings" v-on="click: view === 'settings' ? route('contrast') : route('settings')" v-class="is-active: view === 'settings'">
+					<span class="window__titlebar-separator"></span>
+					<button class="btn btn--icon window__btn window__btn--settings" title="Settings" aria-label="View settings" v-on="click: toggleModal('settings')" v-class="is-active: modal === 'settings'">
 						<svg viewBox="0 0 8 8" class="icon-holder">
 							<use xlink:href="images/icons.svg#cog" class="icon"></use>
 						</svg>
 					</button>
-					<span class="window__titlebar-separator"></span>
+				</div>
+				<div class="window__titlebar-section">
+					<span class="logo" v-text="title"></span>
+				</div>
+				<div class="window__titlebar-section">
 					<button class="btn btn--icon window__btn window__btn--quit" title="Quit" aria-label="Quit Tinge" v-on="click: onQuit">
 						<svg viewBox="0 0 8 8" class="icon-holder">
 							<use xlink:href="images/icons.svg#power-standby" class="icon"></use>
@@ -37,7 +37,9 @@
 				</div>
 			</div>
 			<main class="window__view">
-				<component is="{{ view }}" v-transition="view-fade"></component>
+				<contrast v-ref="contrast"></contrast>
+				<saved-contrasts v-ref="savedContrasts" v-if="modal === 'saved-contrasts'"></saved-contrasts>
+				<settings v-ref="settings" v-if="modal === 'settings'"></settings>
 			</main>
 		</div>
 

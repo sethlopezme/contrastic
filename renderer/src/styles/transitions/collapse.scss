@@ -1,0 +1,11 @@
+.collapse-transition {
+	max-height: 70px;
+}
+
+.collapse-leave {
+	max-height: 0;
+	opacity: 0;
+	overflow: hidden;
+	transition: max-height $timing-medium $easing-fade,
+	            opacity $timing-medium $easing-fade;
+}

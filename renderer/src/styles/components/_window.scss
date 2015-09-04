@@ -4,9 +4,11 @@ $_window-shadow-blur:            20px;
 $_window-shadow-color:           rgba(0, 0, 0, .35);
 $_window-shadow-vshift:          3px;
 
-$_window__titlebar-bg:           #edf0f1;
+$_window__titlebar-bg:           $color-athens;
 $_window__titlebar-color:        $color-shuttle;
-$_window__titlebar-separator-bg: #c5cbce;
+$_window__titlebar-separator-bg: $color-tiara;
+
+$_window__btn-fill-active:       $color-picton;
 
 .window {
   align-items: center;
@@ -47,6 +49,7 @@ $_window__titlebar-separator-bg: #c5cbce;
 	background: $_window__titlebar-bg;
   border-top-left-radius: $_window-border-radius;
   border-top-right-radius: $_window-border-radius;
+  border-bottom: 1px solid $color-tiara;
   color: $_window__titlebar-color;
 	display: flex;
 	flex-direction: row;
@@ -101,12 +104,22 @@ $_window__titlebar-separator-bg: #c5cbce;
 	}
 }
 
-.window__btn--saved-colors {
+.window__btn--saved-contrasts {
   &:hover,
   &:focus,
   &.is-active {
     .icon {
-      fill: #4abaf4;
+      fill: $_window__btn-fill-active;
+    }
+  }
+}
+
+.window__btn--settings {
+  &:hover,
+  &:focus,
+  &.is-active {
+    .icon {
+      fill: $_window__btn-fill-active;
     }
   }
 }

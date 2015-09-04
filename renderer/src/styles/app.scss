@@ -11,7 +11,10 @@
 @import 'components/contrast';
 @import 'components/logo';
 @import 'components/icons';
+@import 'components/modals';
 @import 'components/preview';
-@import 'components/saved-items';
-@import 'components/view';
+@import 'components/saved-contrasts';
+@import 'components/swatch';
 @import 'components/window';
+
+@import 'transitions/collapse';
