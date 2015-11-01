@@ -1,8 +1,8 @@
 <div class="modal saved-contrasts">
 	<div class="modal__toolbar">
 		<div class="modal__toolbar-section">
-			<button class="btn btn--text modal__btn modal__btn--back" title="Back" aria-label="Back" @click="toggleModal('saved-contrasts')">
-				<svg viewBox="0 0 8 8" class="icon-holder">
+			<button class="btn btn--text modal__btn modal__btn--back" title="Back" aria-label="Back" @click="toggleView('saved-contrasts')">
+				<svg class="icon-holder">
 					<use xlink:href="images/icons.svg#chevron-left" class="icon"></use>
 				</svg>Back
 			</button>
@@ -28,7 +28,7 @@
 					</div>
 				</button>
 				<button class="btn btn--icon saved-contrasts__item-remove" aria-label="Remove this contrast" tooltip="Remove" @click="removeSavedContrast($index)">
-					<svg viewBox="0 0 8 8" class="icon-holder">
+					<svg class="icon-holder">
 						<use xlink:href="images/icons.svg#trash" class="icon"></use>
 					</svg>
 				</button>
