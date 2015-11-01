@@ -12,12 +12,12 @@
 	<div class="contrast__utility">
 		<button class="btn btn--icon contrast__btn contrast__btn--save" title="Save Current Color Contrast" aria-label="Save the current color contrast" @click="toggleSavedContrast" :class="{ 'is-active': saved !== false }">
 			<svg class="icon-holder">
-				<use xlink:href="images/app-icons.svg#star" class="icon"></use>
+				<use xlink:href="images/icons.svg#star" class="icon"></use>
 			</svg>
 		</button>
 		<button class="btn btn--icon contrast__btn contrast__btn--filter" title="Color Blindness Filters" aria-label="Change the color blindness filter" v-el:filter-button @click="onFilterButtonClick" :class="{ 'is-active': filter !== 'normal' }">
 			<svg class="icon-holder">
-				<use xlink:href="images/app-icons.svg#eye" class="icon"></use>
+				<use xlink:href="images/icons.svg#eye" class="icon"></use>
 			</svg>
 		</button>
 	</div>
