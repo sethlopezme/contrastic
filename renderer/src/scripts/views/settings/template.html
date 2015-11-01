@@ -1,14 +1,14 @@
 <div class="modal settings">
 	<div class="modal__toolbar">
 		<div class="modal__toolbar-section">
-			<button class="btn btn--text modal__btn modal__btn--back" title="Back" aria-label="Back" @click="toggleView('settings')">
-				<svg class="icon-holder">
-					<use xlink:href="images/icons.svg#chevron-left" class="icon"></use>
-				</svg>Back
-			</button>
+			<button class="btn btn--text">Feedback?</button>
 		</div>
 		<div class="modal__toolbar-section">
-			<button class="btn btn--text">Feedback?</button>
+			<button class="btn btn--text modal__btn modal__btn--back" title="Back" aria-label="Back" @click="toggleView('settings')">
+				<svg class="icon-holder">
+					<use xlink:href="images/app-icons.svg#close" class="icon"></use>
+				</svg>
+			</button>
 		</div>
 	</div>
 	<div class="modal__content settings__form">
