@@ -3,25 +3,25 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
-		<title>Tinge</title>
+		<title>{{ pkg.name }}</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<link rel="stylesheet" href="http://brick.a.ssl.fastly.net/Source+Sans+Pro:400,600,700">
 		<link rel="stylesheet" href="styles/app.css">
 	</head>
-	<body v-el="body">
+	<body v-el:body>
 		<div class="window">
 			<div class="window__titlebar">
 				<div class="window__titlebar-section">
-					<button class="btn btn--icon window__btn window__btn--saved-contrasts" title="Saved Contrasts" aria-label="View saved contrasts" v-on="click: toggleModal('saved-contrasts')" v-class="is-active: modal === 'saved-contrasts'">
+					<button class="btn btn--icon window__btn window__btn--settings" title="Settings" aria-label="View settings" @click="toggleView('settings')" :class="{ 'is-active': state.modal === 'settings' }">
 						<svg viewBox="0 0 8 8" class="icon-holder">
-							<use xlink:href="images/icons.svg#star" class="icon"></use>
+							<use xlink:href="images/icons.svg#cog" class="icon"></use>
 						</svg>
 					</button>
 					<span class="window__titlebar-separator"></span>
-					<button class="btn btn--icon window__btn window__btn--settings" title="Settings" aria-label="View settings" v-on="click: toggleModal('settings')" v-class="is-active: modal === 'settings'">
+					<button class="btn btn--icon window__btn window__btn--saved-contrasts" title="Saved Contrasts" aria-label="View saved contrasts" @click="toggleView('saved-contrasts')" :class="{ 'is-active': state.modal === 'saved-contrasts' }">
 						<svg viewBox="0 0 8 8" class="icon-holder">
-							<use xlink:href="images/icons.svg#cog" class="icon"></use>
+							<use xlink:href="images/icons.svg#star" class="icon"></use>
 						</svg>
 					</button>
 				</div>
@@ -29,7 +29,7 @@
 					<span class="logo" v-text="title"></span>
 				</div>
 				<div class="window__titlebar-section">
-					<button class="btn btn--icon window__btn window__btn--quit" title="Quit" aria-label="Quit Tinge" v-on="click: onQuit">
+					<button class="btn btn--icon window__btn window__btn--quit" title="Quit" aria-label="Quit Tinge" @click="onQuit">
 						<svg viewBox="0 0 8 8" class="icon-holder">
 							<use xlink:href="images/icons.svg#power-standby" class="icon"></use>
 						</svg>
@@ -37,9 +37,27 @@
 				</div>
 			</div>
 			<main class="window__view">
-				<contrast v-ref="contrast"></contrast>
-				<saved-contrasts v-ref="savedContrasts" v-if="modal === 'saved-contrasts'"></saved-contrasts>
-				<settings v-ref="settings" v-if="modal === 'settings'"></settings>
+				<contrast
+					v-ref:contrast
+					:current-colors="state.currentColors"
+					:filter="state.filter"
+					:filtered-colors="state.filteredColors"
+					:ratio="state.ratio"
+					:saved="state.saved">
+				</contrast>
+				<saved-contrasts
+					v-ref:saved-contrasts
+					v-show="state.view === 'saved-contrasts'"
+					:saved-contrasts.sync="state.savedContrasts"
+					:toggle-view.once="toggleView">
+				</saved-contrasts>
+				<settings
+					v-ref:settings
+					v-show="state.view === 'settings'"
+					:pkg.once="pkg"
+					:launch-at-login="state.launchAtLogin"
+					:toggle-view.once="toggleView">
+				</settings>
 			</main>
 		</div>
 

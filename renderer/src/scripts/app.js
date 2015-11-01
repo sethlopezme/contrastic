@@ -1,80 +1,15 @@
 import ipc from 'ipc';
+import store from 'store';
+import { setView, PREVIEW_FILTERS } from 'store/actions';
 import Vue from 'vue';
 
 import ContrastView from 'views/contrast';
 import SavedContrastsView from 'views/saved-contrasts';
 import SettingsView from 'views/settings';
 
-const latestDefaults = {
-	background: '#008c8e',
-	foreground: '#ffffff'
-};
-const settingsDefaults = {
-	language: 'en',
-	launchAtStartup: false,
-	savedMax: 50
-};
-const savedContrastsDefaults = [
-	{
-		background: '#008c8e',
-		foreground: '#ffffff',
-		ratio: 4.08,
-		dark: true
-	},
-	{
-		background: '#008c8e',
-		foreground: '#ffffff',
-		ratio: 4.08,
-		dark: true
-	},
-	{
-		background: '#008c8e',
-		foreground: '#ffffff',
-		ratio: 4.08,
-		dark: true
-	},
-	{
-		background: '#008c8e',
-		foreground: '#ffffff',
-		ratio: 4.08,
-		dark: true
-	}
-];
-let latest = localStorage.getItem('tinge:latest');
-let settings = localStorage.getItem('tinge:settings');
-let savedContrasts = localStorage.getItem('tinge:saved-contrasts');
-
 Vue.config.debug = true;
 
-// check for the existence of the settings object
-if (settings !== null) {
-	settings = Object.assign(settingsDefaults, JSON.parse(settings));
-} else {
-	settings = settingsDefaults;
-}
-
-// because we're potentially combining current settings with new defaults, go
-// ahead and store the new settings object in localstorage
-localStorage.setItem('tinge:settings', JSON.stringify(settings));
-
-// check for the existence of the history array
-if (savedContrasts !== null) {
-	savedContrasts = JSON.parse(savedContrasts);
-} else {
-	savedContrasts = savedContrastsDefaults;
-
-	localStorage.setItem('tinge:saved-contrasts', JSON.stringify(savedContrasts));
-}
-
-// check for the existence of the most recent object
-if (latest !== null) {
-	latest = JSON.parse(latest);
-} else {
-	latest = latestDefaults;
-
-	localStorage.setItem('tinge:latest', JSON.stringify(latest));
-}
-
+const pkg = require('../../../package.json');
 // define the Vue app
 const app = new Vue({
 	el: 'html',
@@ -84,21 +19,27 @@ const app = new Vue({
 		settings: SettingsView
 	},
 	data: {
-		modal: null,
-		latest,
-		savedContrasts,
-		settings
+		pkg: {
+			author: pkg.author,
+			contributors: pkg.contributors,
+			description: pkg.description,
+			homepage: pkg.homepage,
+			name: pkg.productName,
+			repository: pkg.repository,
+			version: pkg.version
+		},
+		state: store.getState()
 	},
 	computed: {
 		title: {
 			get: function getTitle() {
-				switch (this.modal) {
+				switch (this.state.view) {
 					case 'saved-contrasts':
 						return 'Saved Contrasts';
 					case 'settings':
 						return 'Settings';
 					default:
-						return 'Tinge';
+						return this.pkg.name;
 				}
 			}
 		}
@@ -107,26 +48,29 @@ const app = new Vue({
 		onQuit() {
 			ipc.send('quit');
 		},
-		toggleModal(modal) {
-			this.modal = modal === this.modal ? null : modal;
+		commitState() {
+			// changes to the state before it's committed
+			const state = Object.assign({}, this.state, {
+				filter: PREVIEW_FILTERS.normal,
+				filteredColors: this.state.currentColors,
+				view: 'default'
+			});
+
+			localStorage.setItem('app-data', JSON.stringify(state));
 		},
-		commitSavedContrasts() {
-			localStorage.setItem('tinge:saved-contrasts', JSON.stringify(this.savedContrasts));
-		},
-		commitSettings() {
-			localStorage.setItem('tinge:settings', JSON.stringify(this.settings));
-		},
-		commitLatest() {
-			localStorage.setItem('tinge:latest', JSON.stringify(this.latest));
+		toggleView(view) {
+			store.dispatch(setView(this.state.view === view ? 'default' : view));
 		}
 	},
 	ready() {
-		this.$on('saved-contrasts:select', (item) => {
-			this.toggleModal(null);
-			this.$.contrast.model = {
-				background: item.background,
-				foreground: item.foreground
-			};
+		// watch the state and commit it to local storage when it changes
+		this.$watch('state', this.commitState, {
+			deep: true,
+			immediate: true
+		});
+
+		store.subscribe(() => {
+			this.state = store.getState();
 		});
 	}
 });

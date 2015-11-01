@@ -1,20 +1,20 @@
 export default {
 	name: 'SwatchComponent',
 	template: require('./template.html'),
-	props: ['snapshot'],
+	props: ['colors', 'ratio'],
 	computed: {
 		styles() {
 			return {
-				background: this.snapshot.background,
-				color: this.snapshot.foreground
+				background: this.colors[0],
+				color: this.colors[1]
 			};
 		},
 		level() {
-			if (this.snapshot.ratio >= 7) {
+			if (this.ratio >= 7) {
 				return 'AAA';
-			} else if (this.snapshot.ratio >= 4.5 && this.snapshot.ratio < 7) {
+			} else if (this.ratio >= 4.5 && this.ratio < 7) {
 				return 'AA';
-			} else if (this.snapshot.ratio >= 3 && this.snapshot.ratio < 4.5) {
+			} else if (this.ratio >= 3 && this.ratio < 4.5) {
 				return 'AA Large';
 			}
 

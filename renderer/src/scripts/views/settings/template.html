@@ -1,7 +1,7 @@
-<div class="modal saved-colors">
+<div class="modal settings">
 	<div class="modal__toolbar">
 		<div class="modal__toolbar-section">
-			<button class="btn btn--text modal__btn modal__btn--back" title="Back" aria-label="Back" v-on="click: toggleModal('settings')">
+			<button class="btn btn--text modal__btn modal__btn--back" title="Back" aria-label="Back" @click="toggleView('settings')">
 				<svg viewBox="0 0 8 8" class="icon-holder">
 					<use xlink:href="images/icons.svg#chevron-left" class="icon"></use>
 				</svg>Back
@@ -11,8 +11,15 @@
 			<button class="btn btn--text">Feedback?</button>
 		</div>
 	</div>
-	<div class="modal__content">
-		<p>Settings</p>
-		<pre>{{ settings | json }}</pre>
+	<div class="modal__content settings__form">
+		<div class="input input--checkbox">
+			<input id="settings:launchAtLogin" type="checkbox" v-model="model.launchAtLogin">
+			<label for="settings:launchAtLogin">Launch at Login</label>
+		</div>
+	</div>
+	<div class="modal__footer settings__about">
+		<p>Version {{* pkg.version }}</p>
+		<p>&copy; {{* year }} {{* pkg.author.name }}</p>
+		<p>Built by {{* contributors }}</p>
 	</div>
 </div>

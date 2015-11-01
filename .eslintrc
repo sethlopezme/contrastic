@@ -169,7 +169,8 @@
     }],
     "key-spacing": [2, {                            // http://eslint.org/docs/rules/key-spacing
      "beforeColon": false,
-     "afterColon": true
+     "afterColon": true,
+     "mode": "minimum"
     }],
     "lines-around-comment": [2, {                   // http://eslint.org/docs/rules/lines-around-comment
      "beforeBlockComment": true,

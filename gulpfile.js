@@ -81,7 +81,7 @@ var compiler = webpack({
 		]
 	},
 	resolve: {
-		modulesDirectories: ['node_modules', 'lib', 'scripts']
+		modulesDirectories: ['node_modules', 'scripts', 'lib']
 	}
 });
 

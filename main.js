@@ -9,7 +9,6 @@ import Tray from 'tray';
 import BrowserWindow from 'browser-window';
 
 crashReporter.start();
-// electronDebug();
 
 const entry = path.join('file://', __dirname, 'renderer', 'build', 'index.html');
 const trayIcon = path.join(__dirname, 'tray-icon.png');

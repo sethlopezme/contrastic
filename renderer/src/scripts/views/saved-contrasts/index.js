@@ -1,23 +1,27 @@
+import store from 'store';
+import { removeAllSavedContrasts, removeSavedContrast, setPreviewColors, setView } from 'store/actions';
 import SwatchComponent from 'components/swatch';
 
 export default {
 	name: 'SavedContrastsView',
 	template: require('./template.html'),
-	inherit: true,
+	props: ['savedContrasts', 'toggleView'],
 	components: {
 		swatch: SwatchComponent
 	},
 	methods: {
 		clearSavedContrasts() {
-			this.savedContrasts = [];
-			this.commitSavedContrasts();
+			store.dispatch(removeAllSavedContrasts());
 		},
 		removeSavedContrast(index) {
-			this.savedContrasts.$remove(index);
-			this.commitSavedContrasts();
+			store.dispatch(removeSavedContrast(index));
 		},
-		selectSavedContrast(item) {
-			this.$dispatch('saved-contrasts:select', item);
+		selectSavedContrast(index) {
+			const colors = this.savedContrasts[index].colors;
+			const ratio = this.savedContrasts[index].ratio;
+
+			store.dispatch(setPreviewColors(colors, ratio));
+			store.dispatch(setView('default'));
 		}
 	}
 };

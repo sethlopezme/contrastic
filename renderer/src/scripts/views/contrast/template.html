@@ -1,25 +1,25 @@
-<div class="contrast-view" v-class="is-dark: $data[previewMode].dark">
+<div class="contrast-view">
 	<div class="contrast__controls">
 		<div class="contrast__control">
-			<label for="background">Background</label>
-			<input id="background" type="text" maxlength="23" v-model="model.background">
+			<label for="contrast:background">Background</label>
+			<input id="contrast:background" type="text" maxlength="23" v-model="model[0]" debounce="150">
 		</div>
 		<div class="contrast__control">
-			<label for="foreground">Foreground</label>
-			<input id="foreground" type="text" maxlength="23" v-model="model.foreground">
+			<label for="contrast:foreground">Foreground</label>
+			<input id="contrast:foreground" type="text" maxlength="23" v-model="model[1]" debounce="200">
 		</div>
 	</div>
 	<div class="contrast__utility">
-		<button class="btn btn--icon contrast__btn contrast__btn--save" title="Save Current Color Contrast" aria-label="Save the current color contrast" v-class="is-active: saved" v-on="click: saveCurrentContrast">
+		<button class="btn btn--icon contrast__btn contrast__btn--save" title="Save Current Color Contrast" aria-label="Save the current color contrast" @click="toggleSavedContrast" :class="{ 'is-active': saved !== false }">
 			<svg viewBox="0 0 8 8" class="icon-holder">
 				<use xlink:href="images/icons.svg#star" class="icon"></use>
 			</svg>
 		</button>
-		<button class="btn btn--icon contrast__btn contrast__btn--preview-mode" title="Preview Modes" aria-label="Change the preview mode" v-el="previewModeButton" v-on="click: onPreviewModeButtonClick" v-class="is-active: previewMode !== 'normal'">
+		<button class="btn btn--icon contrast__btn contrast__btn--filter" title="Color Blindness Filters" aria-label="Change the color blindness filter" v-el:filter-button @click="onFilterButtonClick" :class="{ 'is-active': filter !== 'normal' }">
 			<svg viewBox="0 0 8 8" class="icon-holder">
 				<use xlink:href="images/icons.svg#eye" class="icon"></use>
 			</svg>
 		</button>
 	</div>
-	<preview colors="{{ $data[$data.previewMode] }}"></preview>
+	<preview :colors="filteredColors" :ratio="ratio"></preview>
 </div>

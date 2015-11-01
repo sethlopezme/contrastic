@@ -24,6 +24,7 @@ $_modal-separator-color: $color-mystic;
 .modal__content {
 	display: flex;
 	flex: 1 0 0;
+	flex-direction: column;
 	overflow-y: auto;
 }
 
@@ -40,6 +41,10 @@ $_modal-separator-color: $color-mystic;
 		padding-right: 15px;
 		text-align: right;
 	}
+}
+
+.modal__footer {
+	border-top: 1px solid $_modal-separator-color;
 }
 
 .modal-transition {

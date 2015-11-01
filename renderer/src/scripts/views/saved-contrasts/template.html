@@ -1,30 +1,33 @@
 <div class="modal saved-contrasts">
 	<div class="modal__toolbar">
 		<div class="modal__toolbar-section">
-			<button class="btn btn--text modal__btn modal__btn--back" title="Back" aria-label="Back" v-on="click: toggleModal('saved-contrasts')">
+			<button class="btn btn--text modal__btn modal__btn--back" title="Back" aria-label="Back" @click="toggleModal('saved-contrasts')">
 				<svg viewBox="0 0 8 8" class="icon-holder">
 					<use xlink:href="images/icons.svg#chevron-left" class="icon"></use>
 				</svg>Back
 			</button>
 		</div>
 		<div class="modal__toolbar-section">
-			<button class="btn btn--text" v-if="savedContrasts.length" v-on="click: clearSavedContrasts">Remove All Contrasts</button>
+			<button class="btn btn--text" v-if="savedContrasts.length" @click="clearSavedContrasts">Remove All Contrasts</button>
 		</div>
 	</div>
 	<div class="modal__content">
 		<div class="saved-contrasts__empty" v-if="!savedContrasts.length">
-			<p>No contrasts saved.<br><button class="btn btn--text" v-on="click: toggleModal('saved-contrasts')"><strong>Add some!</strong></button></p>
+			<p>No contrasts saved.<br><button class="btn btn--text" @click="toggleView('saved-contrasts')"><strong>Add some!</strong></button></p>
 		</div>
 		<ul class="saved-contrasts__list" v-if="savedContrasts.length">
-			<li class="saved-contrasts__item" v-repeat="item in savedContrasts" v-transition="collapse">
-				<button class="saved-contrasts__item-description" v-on="click: selectSavedContrast(item)">
-					<swatch snapshot="{{ item }}"></swatch>
+			<li class="saved-contrasts__item" v-for="item in savedContrasts" transition="collapse">
+				<button class="saved-contrasts__item-description" @click="selectSavedContrast($index)">
+					<swatch
+						:colors="item.colors"
+						:ratio="item.ratio">
+					</swatch>
 					<div class="saved-contrasts__item-colors">
-						<span class="saved-contrasts__item-color"><span>Background</span><b>{{ item.background }}</b></span>
-						<span class="saved-contrasts__item-color"><span>Foreground</span><b>{{ item.foreground }}</b></span>
+						<span class="saved-contrasts__item-color"><span>Background</span><b>{{ item.colors[0] }}</b></span>
+						<span class="saved-contrasts__item-color"><span>Foreground</span><b>{{ item.colors[1] }}</b></span>
 					</div>
 				</button>
-				<button class="btn btn--icon saved-contrasts__item-remove" v-on="click: removeSavedContrast($index)">
+				<button class="btn btn--icon saved-contrasts__item-remove" title="Remove This Contrast" aria-label="Remove this contrast" @click="removeSavedContrast($index)">
 					<svg viewBox="0 0 8 8" class="icon-holder">
 						<use xlink:href="images/icons.svg#trash" class="icon"></use>
 					</svg>
