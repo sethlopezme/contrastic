@@ -12,10 +12,11 @@
 @import 'components/logo';
 @import 'components/icons';
 @import 'components/modals';
-@import 'components/preview';
-@import 'components/saved-contrasts';
-@import 'components/settings';
-@import 'components/swatch';
 @import 'components/window';
+
+@import 'partials/preview';
+@import 'partials/saved-contrasts';
+@import 'partials/settings';
+@import 'partials/swatch';
 
 @import 'transitions/collapse';

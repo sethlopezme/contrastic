@@ -27,7 +27,7 @@
 						<span class="saved-contrasts__item-color"><span>Foreground</span><b>{{ item.colors[1] }}</b></span>
 					</div>
 				</button>
-				<button class="btn btn--icon saved-contrasts__item-remove" title="Remove This Contrast" aria-label="Remove this contrast" @click="removeSavedContrast($index)">
+				<button class="btn btn--icon saved-contrasts__item-remove" aria-label="Remove this contrast" tooltip="Remove" @click="removeSavedContrast($index)">
 					<svg viewBox="0 0 8 8" class="icon-holder">
 						<use xlink:href="images/icons.svg#trash" class="icon"></use>
 					</svg>
