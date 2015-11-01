@@ -1,19 +1,14 @@
-$_modal-separator-color: $color-mystic;
+$_view-separator-color: $color-mystic;
 
-.modal {
+.view {
 	background: #ffffff;
 	display: flex;
+	flex: 1 0 0;
 	flex-direction: column;
-	height: 100%;
-	left: 0;
-	position: absolute;
-	top: 0;
-	width: 100%;
-	z-index: 11;
 }
 
-.modal__toolbar {
-	border-bottom: 1px solid $_modal-separator-color;
+.view__toolbar {
+	border-bottom: 1px solid $_view-separator-color;
 	display: flex;
 	flex-direction: row;
 	line-height: 0;
@@ -21,7 +16,7 @@ $_modal-separator-color: $color-mystic;
 	user-select: none;
 }
 
-.modal__toolbar-section {
+.view__toolbar-section {
 	padding: 10px 5px;
 	text-align: center;
 
@@ -36,13 +31,13 @@ $_modal-separator-color: $color-mystic;
 	}
 }
 
-.modal__content {
+.view__content {
 	display: flex;
 	flex: 1 0 0;
 	flex-direction: column;
 	overflow-y: auto;
 }
 
-.modal__footer {
-	border-top: 1px solid $_modal-separator-color;
+.view__footer {
+	border-top: 1px solid $_view-separator-color;
 }

@@ -39,6 +39,7 @@
 			<main class="window__view">
 				<contrast
 					v-ref:contrast
+					v-show="state.view === 'default'"
 					:current-colors="state.currentColors"
 					:filter="state.filter"
 					:filtered-colors="state.filteredColors"
