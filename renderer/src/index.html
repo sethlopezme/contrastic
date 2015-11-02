@@ -10,7 +10,7 @@
 		<link rel="stylesheet" href="styles/app.css">
 	</head>
 	<body v-el:body>
-		<div class="window">
+		<div class="window window--toolbar">
 			<div class="window__titlebar">
 				<div class="window__titlebar-section">
 					<button class="btn btn--icon window__btn window__btn--saved-contrasts" title="Saved Contrasts" aria-label="View saved contrasts" @click="toggleView('saved-contrasts')" :class="{ 'is-active': state.view === 'saved-contrasts' }">

@@ -1,3 +1,4 @@
+import ipc from 'ipc';
 import store from 'store';
 import { saveSettings } from 'store/actions';
 
@@ -27,6 +28,9 @@ export default {
 	methods: {
 		onUpdateModel(value) {
 			store.dispatch(saveSettings(value));
+		},
+		onClickFeedback() {
+			ipc.send('feedback-open');
 		}
 	},
 	ready() {

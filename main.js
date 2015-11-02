@@ -1,6 +1,5 @@
 /* eslint no-console: 0 */
 import path from 'path';
-import crashReporter from 'crash-reporter';
 // import electronDebug from 'electron-debug';
 import app from 'app';
 import ipc from 'ipc';
@@ -8,20 +7,28 @@ import Menu from 'menu';
 import Tray from 'tray';
 import BrowserWindow from 'browser-window';
 
-crashReporter.start();
-
-const entry = path.join('file://', __dirname, 'renderer', 'build', 'index.html');
 const trayIcon = path.join(__dirname, 'tray-icon.png');
-const winConfig = {
+const mainWindowEntry = path.join('file://', __dirname, 'renderer', 'build', 'index.html');
+const mainWindowConfig = {
 	frame: false,
-	height: 300,
+	height: 315,
 	resizable: false,
 	show: false,
 	title: app.getName(),
 	transparent: true,
 	width: 430
 };
-let win = null;
+const feedbackWindowEntry = path.join('file://', __dirname, 'renderer', 'build', 'feedback.html');
+const feedbackWindowConfig = {
+	frame: false,
+	height: 450,
+	resizable: false,
+	title: app.getName(),
+	transparent: true,
+	width: 350
+};
+let mainWindow = null;
+let feedbackWindow = null;
 let tray = null;
 const appMenu = [
 	{ label: app.getName(), submenu: [
@@ -38,43 +45,63 @@ const appMenu = [
 		{ label: 'Select All', accelerator: 'Cmd+A', selector: 'selectAll:' }
 	]},
 	{ label: 'Developer', submenu: [
-		{ label: 'Reload', accelerator: 'Cmd+R', click: () => {win.reload(); } },
-		{ label: 'Toggle DevTools', accelerator: 'Cmd+Alt+I', click: () => { win.toggleDevTools(); } }
+		{ label: 'Reload', accelerator: 'Cmd+R', click: () => { mainWindow.reload(); } },
+		{ label: 'Toggle DevTools', accelerator: 'Cmd+Alt+I', click: () => { BrowserWindow.getFocusedWindow().toggleDevTools(); } }
 	]}
 ];
 
-function onWinBlur() {
-	if (win.isVisible()) {
-		win.hide();
-	}
-}
+console.log(app.getAppPath());
+console.log(app.getPath('home'));
 
 function onTrayClicked(event, bounds) {
-	if (win.isVisible()) {
-		win.hide();
+	if (mainWindow.isVisible()) {
+		mainWindow.hide();
 	} else {
 		const position = {
-			x: (bounds.x + (bounds.width / 2)) - (win.getSize()[0] / 2),
+			x: (bounds.x + (bounds.width / 2)) - (mainWindow.getSize()[0] / 2),
 			y: (bounds.y + bounds.height)
 		};
 
-		win.setPosition(position.x, position.y);
-		win.show();
+		mainWindow.setPosition(position.x, position.y);
+		mainWindow.show();
 	}
+}
+
+function onMainWindowBlur() {
+	if (mainWindow.isVisible()) {
+		mainWindow.hide();
+	}
+}
+
+function onFeedbackWindowOpen() {
+	feedbackWindow = new BrowserWindow(feedbackWindowConfig);
+
+	feedbackWindow.loadUrl(feedbackWindowEntry);
+	feedbackWindow.on('close', onFeedbackWindowClosed);
+}
+
+function onFeedbackWindowClose() {
+	feedbackWindow.close();
+}
+
+function onFeedbackWindowClosed() {
+	feedbackWindow = null;
 }
 
 app.dock.hide();
 app.on('ready', () => {
 	Menu.setApplicationMenu(Menu.buildFromTemplate(appMenu));
-	win = new BrowserWindow(winConfig);
+	mainWindow = new BrowserWindow(mainWindowConfig);
 	tray = new Tray(trayIcon);
 
-	win.loadUrl(entry);
-	// win.on('blur', onWinBlur);
+	mainWindow.loadUrl(mainWindowEntry);
+	// mainWindow.on('blur', onMainWindowBlur);
 
 	tray.setToolTip(`${app.getName()} ${app.getVersion()}`);
 	tray.on('clicked', onTrayClicked);
 	tray.on('double-clicked', onTrayClicked);
 
 	ipc.on('quit', app.quit.bind(app));
+	ipc.on('feedback-open', onFeedbackWindowOpen);
+	ipc.on('feedback-close', onFeedbackWindowClose);
 });

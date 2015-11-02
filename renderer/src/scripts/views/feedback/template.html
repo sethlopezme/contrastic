@@ -1,0 +1,24 @@
+<div class="view feedback">
+	<div class="view__content">
+		<p>We're always improving {{ pkg.name }} and we're open to new ideas and suggestions. Please let us know what you'd like to see!</p>
+		<form
+			class="form"
+			name="feedbackForm"
+			v-el:feedback-form
+			@submit="onSubmit">
+			<div class="form-field form-field--text">
+				<label class="form-field__label" for="name">Name</label>
+				<input class="form-field__input" id="name" name="name" type="text" required value="Seth Lopez">
+			</div>
+			<div class="form-field form-field--text">
+				<label class="form-field__label" for="email">Email Address</label>
+				<input class="form-field__input" id="email" name="email" type="email" required value="seth@sethlopez.me">
+			</div>
+			<div class="form-field form-field--textarea">
+				<label class="form-field__label" for="comments">Comments</label>
+				<textarea class="form-field__input" id="comments" name="comments" required>This is a test.</textarea>
+			</div>
+			<button class="btn btn--primary btn--block">Submit</button>
+		</form>
+	</div>
+</div>

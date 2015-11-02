@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<title>{{ pkg.name }} - Feedback</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="stylesheet" href="http://brick.a.ssl.fastly.net/Source+Sans+Pro:400,600,700">
+		<link rel="stylesheet" href="styles/app.css">
+	</head>
+	<body v-el:body>
+		<div class="window">
+			<div class="window__titlebar">
+				<div class="window__titlebar-section"></div>
+				<div class="window__titlebar-section">
+					<span class="logo">Feedback</span>
+				</div>
+				<div class="window__titlebar-section">
+					<button class="btn btn--icon window__btn window__btn--close" title="Close" aria-label="Close" @click="onFeedbackClose">
+						<svg class="icon-holder">
+							<use xlink:href="images/icons.svg#close" class="icon"></use>
+						</svg>
+					</button>
+				</div>
+			</div>
+			<main class="window__view">
+				<feedback
+					v-ref:feedback
+					:pkg="pkg"
+				></feedback>
+			</main>
+		</div>
+
+		<script src="scripts/app.js"></script>
+	</body>
+</html>

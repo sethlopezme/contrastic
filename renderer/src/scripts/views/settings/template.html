@@ -1,7 +1,7 @@
 <div class="view settings">
 	<div class="view__toolbar">
 		<div class="view__toolbar-section">
-			<button class="btn btn--text">Feedback?</button>
+			<!-- <button class="btn btn--text" @click="onClickFeedback">Feedback?</button> -->
 		</div>
 		<div class="view__toolbar-section">
 			<button class="btn btn--text view__btn view__btn--back" title="Back" aria-label="Back" @click="toggleView('settings')">
@@ -12,10 +12,12 @@
 		</div>
 	</div>
 	<div class="view__content settings__form">
-		<div class="input input--checkbox">
-			<input id="settings:launchAtLogin" type="checkbox" v-model="model.launchAtLogin">
-			<label for="settings:launchAtLogin">Launch at Login</label>
-		</div>
+		<form class="form">
+			<div class="form-field form-field--checkbox">
+				<input class="form-field__input" id="settings:launchAtLogin" type="checkbox" v-model="model.launchAtLogin">
+				<label class="form-field__label" for="settings:launchAtLogin">Launch at Login</label>
+			</div>
+		</form>
 	</div>
 	<div class="view__footer settings__about">
 		<p>Version {{* pkg.version }}</p>

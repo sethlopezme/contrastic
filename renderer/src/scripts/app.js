@@ -4,6 +4,7 @@ import { setView, PREVIEW_FILTERS } from 'store/actions';
 import Vue from 'vue';
 
 import ContrastView from 'views/contrast';
+import FeedbackView from 'views/feedback';
 import SavedContrastsView from 'views/saved-contrasts';
 import SettingsView from 'views/settings';
 
@@ -15,6 +16,7 @@ const app = new Vue({
 	el: 'html',
 	components: {
 		contrast: ContrastView,
+		feedback: FeedbackView,
 		savedContrasts: SavedContrastsView,
 		settings: SettingsView
 	},
@@ -47,6 +49,9 @@ const app = new Vue({
 	methods: {
 		onQuit() {
 			ipc.send('quit');
+		},
+		onFeedbackClose() {
+			ipc.send('feedback-close');
 		},
 		commitState() {
 			// changes to the state before it's committed

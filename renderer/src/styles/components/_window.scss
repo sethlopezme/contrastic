@@ -22,21 +22,27 @@ $_window__btn-fill-active:       $color-picton;
   max-height: 500px;
   position: relative;
 
-	&::before {
-    border: 5px solid transparent;
-    border-right-color: $_window__titlebar-bg;
-    border-top-color: $_window__titlebar-bg;
-    border-top-right-radius: $_window-border-radius;
-		box-shadow: -$_window-shadow-vshift $_window-shadow-vshift $_window-shadow-blur $_window-shadow-color;
-		content: '';
-		display: block;
-		height: 10px;
-    left: calc(50% - 5px);
-		position: absolute;
-		top: -5px;
-		transform: rotate(-45deg);
-		width: 10px;
-	}
+  &.window--toolbar {
+    &::before {
+      border: 5px solid transparent;
+      border-right-color: $_window__titlebar-bg;
+      border-top-color: $_window__titlebar-bg;
+      border-top-right-radius: $_window-border-radius;
+  		box-shadow: -$_window-shadow-vshift $_window-shadow-vshift $_window-shadow-blur $_window-shadow-color;
+  		content: '';
+  		display: block;
+  		height: 10px;
+      left: calc(50% - 5px);
+  		position: absolute;
+  		top: -5px;
+  		transform: rotate(-45deg);
+  		width: 10px;
+  	}
+
+    .window__titlebar {
+      -webkit-app-region: no-drag;
+    }
+  }
 }
 
 .window__titlebar,
@@ -46,6 +52,7 @@ $_window__btn-fill-active:       $color-picton;
 
 .window__titlebar {
 	align-items: center;
+  -webkit-app-region: drag;
 	background: $_window__titlebar-bg;
   border-top-left-radius: $_window-border-radius;
   border-top-right-radius: $_window-border-radius;
@@ -58,6 +65,10 @@ $_window__btn-fill-active:       $color-picton;
 	user-select: none;
 	width: 100%;
   z-index: 10;
+
+  .window__btn {
+    -webkit-app-region: no-drag;
+  }
 }
 
 .window__titlebar-section {
