@@ -1,6 +1,5 @@
 /* eslint no-console: 0 */
 import path from 'path';
-// import electronDebug from 'electron-debug';
 import app from 'app';
 import ipc from 'ipc';
 import Menu from 'menu';
