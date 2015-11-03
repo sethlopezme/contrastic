@@ -66,7 +66,7 @@ function onTrayClicked(event, bounds) {
 	}
 }
 
-function onMainWindowBlur() {
+function onBlurMainWindow() {
 	if (mainWindow.isVisible()) {
 		mainWindow.hide();
 	}
@@ -94,7 +94,7 @@ app.on('ready', () => {
 	tray = new Tray(trayIcon);
 
 	mainWindow.loadUrl(mainWindowEntry);
-	// mainWindow.on('blur', onMainWindowBlur);
+	mainWindow.on('blur', onBlurMainWindow);
 
 	tray.setToolTip(`${app.getName()} ${app.getVersion()}`);
 	tray.on('clicked', onTrayClicked);
