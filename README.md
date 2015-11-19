@@ -1,4 +1,4 @@
-# Tinge
+# Contrastic
 
 > Compare colors for their WCAG contrast ratio.
 
